@@ -10,6 +10,13 @@ services:
       DATABASE_TYPE: postgresql
       APP_SECRET: ${UMAMI_APP_SECRET}
 
+      # Use the CA store of the host OS, which gets security updates. The CA
+      # list that is built into Node.js changes only with a new image.
+      NODE_OPTIONS: --use-openssl-ca
+      SSL_CERT_FILE: /etc/ssl/host-certs/ca-certificates.crt
+
+    volumes: [/etc/ssl/certs:/etc/ssl/host-certs:ro]
+
     networks: [postgres]
     depends_on:
       postgres:
